@@ -8,40 +8,50 @@ import * as actions from "../actions/actions";
 class CategoryFilmListContainer extends Component {
   constructor() {
     super();
+
+    this.state = {
+      currentPage: 0
+    };
+
+    window.onscroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop ===
+        document.documentElement.offsetHeight
+      ) {
+        console.log(`loading page: ${this.state.currentPage}...`);
+        this.loadFilms();
+      }
+    };
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props !== nextProps) {
+      return true;
+    }
+    if (
+      this.state !== nextState &&
+      this.state.currentPage !== nextState.currentPage
+    ) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   componentWillMount() {
-    axios
-      .get("http://localhost:3001/api/dashboard", {
-        headers: {
-          Authorization: sessionStorage.getItem("token")
-        }
-      })
-      .then(res => {
-        if (res.data.success) {
-          this.props.onSetUser(res.data.user);
-        } else {
-          console.log("err");
-        }
-      })
-      .catch(err => {
-        console.log(err.message);
-      });
-
     axios.get("http://localhost:3001/api/films/categories").then(res => {
       this.props.onLoadCategories(res.data);
     });
-
-    axios
-      .get(
-        `http://localhost:3001/api/films/categories/${
-          this.props.match.params.id
-        }`
-      )
-      .then(res => {
-        this.props.onLoadFilms(res.data);
-      });
+    this.loadFilms();
   }
+
+  loadFilms = () => {
+    const url = `http://localhost:3001/api/films/categories/${
+      this.props.match.params.id
+    }/${this.state.currentPage}`;
+    this.props.onLoadFilms(url, this.state.currentPage, this.props.films);
+    this.setState({ currentPage: this.state.currentPage + 1 });
+  };
 
   render() {
     return (
@@ -51,6 +61,8 @@ class CategoryFilmListContainer extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log("category films");
+  console.log(state.catalog.films);
   return {
     films: state.catalog.films,
     categories: state.catalog.categories,
@@ -60,8 +72,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLoadFilms: films => {
-      dispatch(actions.setFilms(films));
+    onLoadFilms: (url, currentPage, films) => {
+      dispatch(actions.loadFilmList(url, currentPage, films));
     },
     onLoadCategories: categories => {
       dispatch(actions.setCategories(categories));

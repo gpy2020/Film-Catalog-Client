@@ -41,5 +41,10 @@ export const styles = theme => ({
   tabContainer: {
     display: "flex",
     justifyContent: "center"
-  }
+  },
+  modalIMage: {
+    width: 1000,
+    height: 800
+  },
+  dialog: {}
 });

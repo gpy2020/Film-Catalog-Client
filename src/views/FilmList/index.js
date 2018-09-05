@@ -8,12 +8,16 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
 
 function filmList(props) {
   const { classes } = props;
   return (
     <React.Fragment>
-      <ExpansionPanel className={classes.expansionCategories}>
+      {/* <ExpansionPanel className={classes.expansionCategories}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>Categories</Typography>
         </ExpansionPanelSummary>
@@ -35,7 +39,17 @@ function filmList(props) {
             );
           })}
         </ExpansionPanelDetails>
-      </ExpansionPanel>
+      </ExpansionPanel> */}
+      <select onChange={props.onChangeCategory}>
+        <option value="All">select category</option>
+        {props.categories.map(category => {
+          return (
+            <option value={category._id} key={category._id}>
+              {category.title}
+            </option>
+          );
+        })}
+      </select>
       <div className={classes.cardContainer}>
         {props.films.map((film, id) => {
           return <FilmCardContainer film={film} key={id} />;

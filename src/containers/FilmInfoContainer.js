@@ -13,11 +13,24 @@ class FilmInfoContainer extends Component {
       film: {},
       value: 0,
       comment: "",
-      users: []
+      users: [],
+      openImage: false,
+      imageLink: ""
     };
   }
 
+  onOpenImage = e => {
+    console.log(e.target);
+    this.setState({ openImage: true, imageLink: e.target.src });
+  };
+
+  onCloseImage = e => {
+    this.setState({ openImage: false });
+  };
+
   handleComment = e => {
+    console.log("user");
+    console.log(this.props.user);
     const filmComments = [
       ...this.state.film.comments,
       { user: this.props.user.username, comment: this.state.comment }
@@ -87,6 +100,10 @@ class FilmInfoContainer extends Component {
         handleComment={this.handleComment}
         handleInput={this.handleInput}
         text={this.state.comment}
+        openImage={this.state.openImage}
+        onOpenImage={this.onOpenImage}
+        onCloseImage={this.onCloseImage}
+        imageLink={this.state.imageLink}
       />
     );
   }

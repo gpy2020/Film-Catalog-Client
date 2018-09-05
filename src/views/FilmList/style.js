@@ -9,9 +9,7 @@ export const styles = theme => ({
     width: "1020px",
     backgroundColor: "#6b6b6b"
   },
-  expansionCategories: {
-    marginTop: "25px"
-  },
+  expansionCategories: {},
   categoryList: {
     display: "flex",
     flexDirection: "column"
@@ -27,6 +25,13 @@ export const styles = theme => ({
   link: {
     textDecoration: "none",
     color: "black",
-    fontSize: "20px"
+    fontSize: "20px",
+    display: "block",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#FFF"
+  },
+  linkContainer: {
+    padding: 0
   }
 });
