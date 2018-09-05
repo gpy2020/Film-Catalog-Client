@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import Login from "../views/Login";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-
-//TODO REDUX
+import { connect } from "react-redux";
+import * as actions from "../actions/actions";
 
 class LoginContainer extends Component {
   constructor() {
@@ -21,6 +21,27 @@ class LoginContainer extends Component {
       passwordValid: false,
       formValid: false
     };
+  }
+
+  componentWillMount() {
+    this.props.onChangeTab(1);
+    axios
+      .get("http://localhost:3001/api/dashboard", {
+        headers: {
+          Authorization: sessionStorage.getItem("token")
+        }
+      })
+      .then(res => {
+        if (res.data.success) {
+          this.props.onSetUser(res.data.user);
+          this.setState({ isRedirect: true });
+        } else {
+          console.log("err");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   handleChange = e => {
@@ -135,4 +156,18 @@ class LoginContainer extends Component {
   }
 }
 
-export default LoginContainer;
+const mapDispatchToProps = dispatch => {
+  return {
+    onSetUser: user => {
+      dispatch(actions.setUser(user));
+    },
+    onChangeTab: tabNumber => {
+      dispatch(actions.setCurrentTab(tabNumber));
+    }
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(LoginContainer);

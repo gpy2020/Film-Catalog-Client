@@ -8,7 +8,9 @@ class FilmListContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: 0
+      currentPage: 0,
+      sortBy: "title",
+      category: "All"
     };
 
     window.onscroll = () => {
@@ -18,47 +20,82 @@ class FilmListContainer extends Component {
       ) {
         const url = `http://localhost:3001/api/films/pages/${
           this.state.currentPage
-        }?`;
+        }?sort=${this.state.sortBy}`;
         this.loadFilms(url, this.state.currentPage);
       }
     };
   }
 
+  onSearch = e => {
+    const title = e.target.value;
+    this.setState({ currentPage: 0 }, () => {
+      const url = `http://localhost:3001/api/films/pages/${
+        this.state.currentPage
+      }?sort=${this.state.sortBy}&search=${title}`;
+      this.loadFilms(url, this.state.currentPage);
+    });
+  };
+
+  onChangeSorting = e => {
+    console.log(e.target.value);
+
+    switch (e.target.value) {
+      case "rating": {
+        this.setState(
+          { currentPage: 0, sortBy: e.target.value, category: "All" },
+          () => {
+            const url = `http://localhost:3001/api/films/pages/0?sort=rating`;
+            console.log(`loading films by id`);
+            this.loadFilms(url, 0);
+          }
+        );
+        break;
+      }
+      case "title":
+      default: {
+        this.setState(
+          { currentPage: 0, sortBy: e.target.value, category: "All" },
+          () => {
+            const url = `http://localhost:3001/api/films/pages/0?sort=title`;
+            console.log(`loading films by title`);
+            this.loadFilms(url, 0);
+          }
+        );
+
+        break;
+      }
+    }
+  };
+
   onChangeCategory = e => {
     console.log(e.target.value);
     if (e.target.value !== "All") {
-      this.setState({ currentPage: 0 });
+      this.setState({
+        currentPage: 0,
+        sortBy: "title",
+        category: e.target.value
+      });
       const url = `http://localhost:3001/api/films/categories/${
         e.target.value
       }/0`;
 
       this.loadFilms(url, 0);
     } else {
-      this.setState({ currentPage: 0 }, () => {
-        const url = "http://localhost:3001/api/films/pages/0";
-        this.loadFilms(url, 0);
-      });
+      this.setState(
+        { currentPage: 0, sortBy: "title", category: e.target.value },
+        () => {
+          const url = "http://localhost:3001/api/films/pages/0";
+          this.loadFilms(url, 0);
+        }
+      );
     }
   };
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (this.props !== nextProps) {
-  //     return true;
-  //   }
-  //   if (
-  //     this.state !== nextState &&
-  //     this.state.currentPage !== nextState.currentPage
-  //   ) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // }
-
   componentWillMount() {
+    this.props.onChangeTab(0);
     const url = `http://localhost:3001/api/films/pages/${
       this.state.currentPage
-    }`;
+    }?sort=${this.state.sortBy}`;
     this.loadFilms(url, this.state.currentPage);
     axios.get("http://localhost:3001/api/films/categories").then(res => {
       this.props.onLoadCategories(res.data);
@@ -67,7 +104,9 @@ class FilmListContainer extends Component {
 
   loadFilms = (url, page) => {
     this.props.onLoadFilms(url, page, this.props.films);
-    this.setState({ currentPage: this.state.currentPage + 1 });
+    this.setState({ currentPage: this.state.currentPage + 1 }, () =>
+      console.log(this.state.currentPage)
+    );
   };
 
   render() {
@@ -75,14 +114,18 @@ class FilmListContainer extends Component {
       <FilmList
         films={this.props.films}
         categories={this.props.categories}
-        currentCategory={this.state.currentCategory}
         onChangeCategory={this.onChangeCategory}
+        onChangeSorting={this.onChangeSorting}
+        onSearch={this.onSearch}
+        sortBy={this.state.sortBy}
+        category={this.state.category}
       />
     );
   }
 }
 
 const mapStateToProps = state => {
+  console.log(state.catalog.films);
   return {
     films: state.catalog.films,
     categories: state.catalog.categories,
@@ -101,6 +144,9 @@ const mapDispatchToProps = dispatch => {
     },
     onSetUser: user => {
       dispatch(actions.setUser(user));
+    },
+    onChangeTab: tabNumber => {
+      dispatch(actions.setCurrentTab(tabNumber));
     }
   };
 };

@@ -13,9 +13,9 @@ class FilmInfoContainer extends Component {
       film: {},
       value: 0,
       comment: "",
-      users: [],
       openImage: false,
-      imageLink: ""
+      imageLink: "",
+      isAuthorized: false
     };
   }
 
@@ -43,7 +43,6 @@ class FilmInfoContainer extends Component {
       })
       .then(res => {
         this.setState({ film: res.data, comment: "" });
-        // console.log(this.state.film.comments);
       })
       .catch(err => {
         console.log(err);
@@ -59,6 +58,12 @@ class FilmInfoContainer extends Component {
     this.setState({ value });
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.user.email) {
+      this.setState({ isAuthorized: false });
+    }
+  }
+
   componentWillMount() {
     axios
       .get("http://localhost:3001/api/dashboard", {
@@ -67,10 +72,9 @@ class FilmInfoContainer extends Component {
         }
       })
       .then(res => {
-        console.log("authorized");
         if (res.data.success) {
           this.props.onSetUser(res.data.user);
-          console.log(res.data.user);
+          this.setState({ isAuthorized: true });
         } else {
           console.log("err");
         }
@@ -85,9 +89,6 @@ class FilmInfoContainer extends Component {
         console.log(res.data);
         this.setState({ film: res.data });
         console.log(this.state.film);
-        // const userIDs = res.data.comments.map(comment => comment.user);
-        // Promise.all(userIDs.map(userID => {
-        // }))
       });
   }
 
@@ -104,6 +105,7 @@ class FilmInfoContainer extends Component {
         onOpenImage={this.onOpenImage}
         onCloseImage={this.onCloseImage}
         imageLink={this.state.imageLink}
+        isAuthorized={this.state.isAuthorized}
       />
     );
   }

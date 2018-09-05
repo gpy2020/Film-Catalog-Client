@@ -9,6 +9,14 @@ export function setUser(user) {
   return { type: actionTypes.SET_USER, payload: user };
 }
 
+export function setCurrentTab(tabNumber) {
+  return { type: actionTypes.SET_CURRENT_TAB, payload: tabNumber };
+}
+
+export function removeUser() {
+  return { type: actionTypes.REMOVE_USER };
+}
+
 export function loadFilmsStart() {
   return { type: actionTypes.LOAD_FILMS_START };
 }

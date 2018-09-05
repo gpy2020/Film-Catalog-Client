@@ -6,8 +6,7 @@ export const styles = theme => ({
     flexDirecion: "row",
     flexWrap: "wrap",
     justifyContent: "center",
-    width: "1020px",
-    backgroundColor: "#6b6b6b"
+    width: "1020px"
   },
   expansionCategories: {},
   categoryList: {

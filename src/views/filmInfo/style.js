@@ -1,11 +1,16 @@
 export const styles = theme => ({
+  fragment: {
+    display: "flex",
+    justifyContent: "center"
+  },
   root: {
     marginTop: "25px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
     backgroundColor: "#969696",
-    padding: "10px"
+    padding: "10px",
+    width: 820
   },
   header: {
     display: "flex",
@@ -42,9 +47,22 @@ export const styles = theme => ({
     display: "flex",
     justifyContent: "center"
   },
-  modalIMage: {
-    width: 1000,
-    height: 800
+  paragraph: {
+    width: 480
   },
-  dialog: {}
+  modalImage: {
+    width: 480,
+    height: 480
+  },
+  dialog: {
+    display: "flex",
+    alignItemd: "center",
+    justifyContent: "center",
+    width: 490,
+    height: 490
+  },
+  warning: {
+    color: "red",
+    fontWeight: 600
+  }
 });

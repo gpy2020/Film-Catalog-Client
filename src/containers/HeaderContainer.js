@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Header from "../views/Header";
+import { connect } from "react-redux";
+import * as actions from "../actions/actions";
 
 class HeaderContainer extends Component {
   constructor(props) {
@@ -10,14 +12,36 @@ class HeaderContainer extends Component {
     };
   }
 
+  onLogout = () => {
+    sessionStorage.removeItem("token");
+    this.props.onLogout();
+  };
+
   render() {
     return (
       <React.Fragment>
-        <Header tabNumber={this.state.tabNumber} />
+        <Header tabNumber={this.props.tabNumber} onLogout={this.onLogout} />
         {this.props.children}
       </React.Fragment>
     );
   }
 }
 
-export default HeaderContainer;
+const mapStateToProps = state => {
+  return {
+    tabNumber: state.catalog.currentTab
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogout: () => {
+      dispatch(actions.removeUser());
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HeaderContainer);
