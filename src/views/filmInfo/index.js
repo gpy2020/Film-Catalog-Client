@@ -187,18 +187,13 @@ function filmInfo(props) {
                     <p key={i}>{`${comment.user} : ${comment.comment}`}</p>
                   );
                 })}
-                <div style={{ width: 500 }}>
+                <div style={{ width: 480 }}>
                   <Disqus.DiscussionEmbed
                     shortname={disqusShortname}
                     config={disqusConfig}
                     width="100px"
                   />
                 </div>
-                {props.isAuthorized === false && (
-                  <p className={classes.warning}>
-                    Only authorized users can leave comments
-                  </p>
-                )}
               </div>
             )}
           </div>

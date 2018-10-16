@@ -63,19 +63,23 @@ class FilmInfoContainer extends Component {
   };
 
   onClickMark = e => {
-    if (!this.checkMark(this.props.user)) {
-      const filmMarks = [
-        ...this.state.film.marks,
-        { user: this.props.user.username, mark: +e.target.value }
-      ];
-      this.setMark(filmMarks);
+    if (this.state.isAuthorized) {
+      if (!this.checkMark(this.props.user)) {
+        const filmMarks = [
+          ...this.state.film.marks,
+          { user: this.props.user.username, mark: +e.target.value }
+        ];
+        this.setMark(filmMarks);
+      } else {
+        const filmMarks = this.state.film.marks.map(singleMark => {
+          return singleMark.user === this.props.user.username
+            ? { ...singleMark, mark: e.target.value }
+            : singleMark;
+        });
+        this.setMark(filmMarks);
+      }
     } else {
-      const filmMarks = this.state.film.marks.map(singleMark => {
-        return singleMark.user === this.props.user.username
-          ? { ...singleMark, mark: e.target.value }
-          : singleMark;
-      });
-      this.setMark(filmMarks);
+      console.log(`err: not authorized`);
     }
   };
 
@@ -113,8 +117,9 @@ class FilmInfoContainer extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.user.email) {
-      this.setState({ isAuthorized: false });
+    console.log(`nextProps.user.email: ${nextProps.user.email}`);
+    if (nextProps.user.email === "") {
+      this.setState({ isAuthorized: false, userMark: null });
     }
   }
 

@@ -2,11 +2,17 @@ export const styles = theme => ({
   card: {
     width: "250px",
     height: "400px",
-    backgroundColor: "#969696",
+    backgroundColor: "#6f74dd",
     marginRight: "2.5px",
     marginLeft: "2.5px",
     marginBottom: "5px",
-    cursor: "pointer"
+    cursor: "pointer",
+    "&:hover": {
+      backgroundColor: "#ffffff",
+      "& $cardText": {
+        color: "black"
+      }
+    }
   },
   imageContainer: {
     width: "200px",
@@ -15,5 +21,8 @@ export const styles = theme => ({
   },
   link: {
     textDecoration: "none"
+  },
+  cardText: {
+    color: "#ffffff"
   }
 });

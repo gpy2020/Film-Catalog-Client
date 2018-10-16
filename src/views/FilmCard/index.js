@@ -13,10 +13,17 @@ function filmCard(props) {
       <Card className={classes.card} onClick={props.handleClick}>
         <CardContent>
           <img src={props.film.avatar} className={classes.imageContainer} />
-          <Typography gutterBottom variant="headline" component="h2">
+          <Typography
+            gutterBottom
+            variant="headline"
+            component="h2"
+            className={classes.cardText}
+          >
             {props.film.title}
           </Typography>
-          <Typography component="p">{props.film.description}</Typography>
+          <Typography component="p" className={classes.cardText}>
+            {props.film.description}
+          </Typography>
         </CardContent>
       </Card>
     </Link>

@@ -22,7 +22,6 @@ function filmList(props) {
         <option value="title">title</option>
         <option value="rating">rating</option>
       </select>
-      <input type="search" placeholder="search" onChange={props.onSearch} />
       <div className={classes.cardContainer}>
         {props.films.map((film, id) => {
           return <FilmCardContainer film={film} key={id} />;

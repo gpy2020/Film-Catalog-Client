@@ -37,7 +37,8 @@ export const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
-    backgroundColor: "#969696",
+    backgroundColor: "#6f74dd",
+    color: "#ffffff",
     padding: "10px",
     width: 820
   },
@@ -77,7 +78,8 @@ export const styles = theme => ({
     justifyContent: "center"
   },
   paragraph: {
-    width: 480
+    width: 480,
+    fontSize: "20px"
   },
   modalImage: {
     width: 480,
