@@ -15,12 +15,75 @@ class FilmInfoContainer extends Component {
       comment: "",
       openImage: false,
       imageLink: "",
-      isAuthorized: false
+      isAuthorized: false,
+      userMark: null
     };
   }
 
+  checkMark = (user, film) => {
+    if (film) {
+      return film.marks.find(mark => {
+        return mark.user === user.username;
+      });
+    }
+    return this.state.film.marks.find(mark => {
+      return mark.user === user.username;
+    });
+  };
+
+  updateRating = film => {
+    const newRating = +(
+      film.marks.reduce((sum, currentMark) => {
+        return sum + +currentMark.mark;
+      }, 0) / film.marks.length
+    ).toFixed(1);
+    axios
+      .put(`http://localhost:3001/api/films/${this.props.match.params.id}`, {
+        ...film,
+        rating: newRating
+      })
+      .then(res => {
+        const mark = this.checkMark(this.props.user, film);
+        this.setState({
+          film: res.data,
+          userMark: mark ? mark.mark : null
+        });
+      });
+  };
+
+  setMark = marks => {
+    axios
+      .put(`http://localhost:3001/api/films/${this.props.match.params.id}`, {
+        ...this.state.film,
+        marks: marks
+      })
+      .then(res => {
+        this.updateRating(res.data);
+      });
+  };
+
+  onClickMark = e => {
+    if (this.state.isAuthorized) {
+      if (!this.checkMark(this.props.user)) {
+        const filmMarks = [
+          ...this.state.film.marks,
+          { user: this.props.user.username, mark: +e.target.value }
+        ];
+        this.setMark(filmMarks);
+      } else {
+        const filmMarks = this.state.film.marks.map(singleMark => {
+          return singleMark.user === this.props.user.username
+            ? { ...singleMark, mark: e.target.value }
+            : singleMark;
+        });
+        this.setMark(filmMarks);
+      }
+    } else {
+      console.log(`err: not authorized`);
+    }
+  };
+
   onOpenImage = e => {
-    console.log(e.target);
     this.setState({ openImage: true, imageLink: e.target.src });
   };
 
@@ -29,13 +92,10 @@ class FilmInfoContainer extends Component {
   };
 
   handleComment = e => {
-    console.log("user");
-    console.log(this.props.user);
     const filmComments = [
       ...this.state.film.comments,
       { user: this.props.user.username, comment: this.state.comment }
     ];
-    console.log(this.props.user);
     axios
       .put(`http://localhost:3001/api/films/${this.props.match.params.id}`, {
         ...this.state.film,
@@ -44,9 +104,7 @@ class FilmInfoContainer extends Component {
       .then(res => {
         this.setState({ film: res.data, comment: "" });
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => {});
     e.preventDefault();
   };
 
@@ -59,8 +117,9 @@ class FilmInfoContainer extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.user.email) {
-      this.setState({ isAuthorized: false });
+    console.log(`nextProps.user.email: ${nextProps.user.email}`);
+    if (nextProps.user.email === "") {
+      this.setState({ isAuthorized: false, userMark: null });
     }
   }
 
@@ -74,7 +133,11 @@ class FilmInfoContainer extends Component {
       .then(res => {
         if (res.data.success) {
           this.props.onSetUser(res.data.user);
-          this.setState({ isAuthorized: true });
+          const mark = this.checkMark(res.data.user, this.state.film);
+          this.setState({
+            isAuthorized: true,
+            userMark: mark ? mark.mark : null
+          });
         } else {
           console.log("err");
         }
@@ -86,9 +149,7 @@ class FilmInfoContainer extends Component {
     axios
       .get(`http://localhost:3001/api/films/${this.props.match.params.id}`)
       .then(res => {
-        console.log(res.data);
         this.setState({ film: res.data });
-        console.log(this.state.film);
       });
   }
 
@@ -106,6 +167,9 @@ class FilmInfoContainer extends Component {
         onCloseImage={this.onCloseImage}
         imageLink={this.state.imageLink}
         isAuthorized={this.state.isAuthorized}
+        onClickMark={this.onClickMark}
+        userMark={this.state.userMark}
+        filmID={this.props.match.params.id}
       />
     );
   }

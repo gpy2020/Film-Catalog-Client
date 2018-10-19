@@ -9,8 +9,8 @@ export function setUser(user) {
   return { type: actionTypes.SET_USER, payload: user };
 }
 
-export function setCurrentTab(tabNumber) {
-  return { type: actionTypes.SET_CURRENT_TAB, payload: tabNumber };
+export function setCurrentPage(pageName) {
+  return { type: actionTypes.SET_CURRENT_PAGE, payload: pageName };
 }
 
 export function removeUser() {

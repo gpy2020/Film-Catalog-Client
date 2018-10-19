@@ -24,7 +24,7 @@ class LoginContainer extends Component {
   }
 
   componentWillMount() {
-    this.props.onChangeTab(1);
+    this.props.onChangePage("login");
     axios
       .get("http://localhost:3001/api/dashboard", {
         headers: {
@@ -115,7 +115,9 @@ class LoginContainer extends Component {
       })
       .then(res => {
         if (res.data.success === true) {
-          this.setState({ user: res.data, isRedirect: true });
+          console.log("logging");
+          this.props.onSetUser(res.data.user);
+          this.setState({ isRedirect: true });
           sessionStorage.setItem("token", res.data.token);
         } else {
           this.setState({ formErrors: { serverErrors: res.data.message } });
@@ -145,7 +147,6 @@ class LoginContainer extends Component {
         password={this.state.password}
         username={this.state.username}
         handleSubmitRegister={this.handleSubmitRegister}
-        user={this.state.user}
         tabNumber={this.state.tabNumber}
         handleChangeTab={this.handleChangeTab}
         handleSubmitLogin={this.handleSubmitLogin}
@@ -161,8 +162,8 @@ const mapDispatchToProps = dispatch => {
     onSetUser: user => {
       dispatch(actions.setUser(user));
     },
-    onChangeTab: tabNumber => {
-      dispatch(actions.setCurrentTab(tabNumber));
+    onChangePage: pageName => {
+      dispatch(actions.setCurrentPage(pageName));
     }
   };
 };

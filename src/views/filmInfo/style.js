@@ -1,14 +1,44 @@
 export const styles = theme => ({
+  "@import": [
+    "url(../../public/fonts/font-awesome-4.7.0/css/font-awesome.min.css)"
+  ],
+
+  star_rating__input: {
+    display: "none"
+  },
+
+  star_rating__wrap: {
+    display: "inline-block",
+    fontSize: "2rem"
+  },
+
+  star_rating__ico: {
+    color: "yellow",
+    float: "right",
+    "&:hover:before, &:hover ~ &:before, $star_rating__input:checked ~ &:before": {
+      content: '"\\f005"'
+    },
+    "&:last-child": {
+      paddingLeft: 0
+    }
+  },
+
+  shareButtonsContainer: {
+    display: "flex"
+  },
+
   fragment: {
     display: "flex",
     justifyContent: "center"
   },
+
   root: {
     marginTop: "25px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
-    backgroundColor: "#969696",
+    backgroundColor: "#6f74dd",
+    color: "#ffffff",
     padding: "10px",
     width: 820
   },
@@ -48,7 +78,8 @@ export const styles = theme => ({
     justifyContent: "center"
   },
   paragraph: {
-    width: 480
+    width: 480,
+    fontSize: "20px"
   },
   modalImage: {
     width: 480,

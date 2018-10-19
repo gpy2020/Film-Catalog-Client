@@ -1,8 +1,9 @@
 body {
-  background-image: url('https://cdn.pixabay.com/photo/2017/08/30/01/05/milky-way-2695569_960_720.jpg');
-  background-repeat: repeat-y;
-  background-size: 100%;
-  background-position: static;
-  background-color: "#6b6b6b"; 
+  background-color: #3949ab;
   margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }

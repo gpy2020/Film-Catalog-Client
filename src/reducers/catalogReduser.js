@@ -1,8 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
-import { cloneDeep } from "lodash";
 
 const initialState = {
-  currentTab: 0,
+  currentPage: "films",
   loading: false,
   error: false,
   films: [],
@@ -13,12 +12,11 @@ const initialState = {
 function catalogReducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.LOAD_FILMS_RESET: {
-      // console.log(state.films);
       return { ...state, films: [], loading: false };
     }
 
-    case actionTypes.SET_CURRENT_TAB: {
-      return { ...state, currentTab: action.payload };
+    case actionTypes.SET_CURRENT_PAGE: {
+      return { ...state, currentPage: action.payload };
     }
 
     case actionTypes.LOAD_FILMS_START: {
@@ -38,6 +36,7 @@ function catalogReducer(state = initialState, action) {
     }
 
     case actionTypes.SET_USER: {
+      console.log(action.payload);
       return { ...state, user: action.payload };
     }
 

@@ -26,16 +26,6 @@ class FilmListContainer extends Component {
     };
   }
 
-  onSearch = e => {
-    const title = e.target.value;
-    this.setState({ currentPage: 0 }, () => {
-      const url = `http://localhost:3001/api/films/pages/${
-        this.state.currentPage
-      }?sort=${this.state.sortBy}&search=${title}`;
-      this.loadFilms(url, this.state.currentPage);
-    });
-  };
-
   onChangeSorting = e => {
     console.log(e.target.value);
 
@@ -92,7 +82,7 @@ class FilmListContainer extends Component {
   };
 
   componentWillMount() {
-    this.props.onChangeTab(0);
+    this.props.onChangePage("films");
     const url = `http://localhost:3001/api/films/pages/${
       this.state.currentPage
     }?sort=${this.state.sortBy}`;
@@ -116,7 +106,6 @@ class FilmListContainer extends Component {
         categories={this.props.categories}
         onChangeCategory={this.onChangeCategory}
         onChangeSorting={this.onChangeSorting}
-        onSearch={this.onSearch}
         sortBy={this.state.sortBy}
         category={this.state.category}
       />
@@ -125,8 +114,8 @@ class FilmListContainer extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state.catalog.films);
   return {
+    pageName: state.catalog.currentPage,
     films: state.catalog.films,
     categories: state.catalog.categories,
     user: state.catalog.user,
@@ -145,8 +134,8 @@ const mapDispatchToProps = dispatch => {
     onSetUser: user => {
       dispatch(actions.setUser(user));
     },
-    onChangeTab: tabNumber => {
-      dispatch(actions.setCurrentTab(tabNumber));
+    onChangePage: pageName => {
+      dispatch(actions.setCurrentPage(pageName));
     }
   };
 };
