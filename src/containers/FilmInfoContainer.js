@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
-import FilmInfo from "../views/filmInfo";
+import FilmInfo from "../views/filmInfo/filmInfo";
 import * as actions from "../actions/actions";
 
 class FilmInfoContainer extends Component {
@@ -112,8 +112,8 @@ class FilmInfoContainer extends Component {
     this.setState({ comment: e.target.value });
   };
 
-  switchTabs = (event, value) => {
-    this.setState({ value });
+  switchTabs = event => {
+    this.setState({ value: event.target.value });
   };
 
   componentWillReceiveProps(nextProps) {

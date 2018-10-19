@@ -1,0 +1,116 @@
+
+
+
+.root {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+.film {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 4px;
+
+  margin-top: 25px;
+  width: 820px;
+  padding: 10px;
+  background-color: #6f74dd;
+}
+
+.head {
+  display: flex;
+  justify-content: center;
+}
+
+.filmImage {
+  width: 220px;
+  height: 320px;
+  border-radius: 15px;
+}
+
+.head__info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.star_rating__wrap {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  font-size: 2rem;
+}
+
+.star_rating__input {
+  display: none;
+}
+
+.star_rating__ico {
+  color: yellow;
+  float: right;
+}
+
+.star_rating__ico:hover::before,
+.star_rating__ico:hover ~ .star_rating__ico::before,
+.star_rating__input:checked ~ .star_rating__ico::before {
+  content: "\f005";
+}
+
+.star_rating__ico:last-child {
+  padding-left: 0;
+}
+
+.shareButtonsContainer {
+  display: flex;
+}
+
+.tabs {
+  margin-top: 10px;
+  height: 42px;
+  background-color: inherit;
+}
+
+.tabs button {
+  background-color: inherit;
+  width: 160px;
+  height: 48px;
+  border: none;
+  color: black;
+  opacity: 0.7;
+}
+
+.tabs button.active {
+  border-bottom: 2px solid red;
+}
+
+.tabContainer {
+  margin-top: 10px;
+}
+
+.description {
+  width: 480;
+  font-size: 20px
+}
+
+.galery {
+  display: flex;
+  margin-top: 5px;
+  flex-wrap: wrap;
+}
+
+.galery__image {
+  width: 200px;
+  height: 200px;
+  margin-right: 5px;
+  border-radius: 4px;
+}
+
+.comments {
+  width: 480px;
+}

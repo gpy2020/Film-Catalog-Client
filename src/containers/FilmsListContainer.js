@@ -7,6 +7,7 @@ import * as actions from "../actions/actions";
 class FilmListContainer extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       currentPage: 0,
       sortBy: "title",
@@ -27,15 +28,12 @@ class FilmListContainer extends Component {
   }
 
   onChangeSorting = e => {
-    console.log(e.target.value);
-
     switch (e.target.value) {
       case "rating": {
         this.setState(
           { currentPage: 0, sortBy: e.target.value, category: "All" },
           () => {
             const url = `http://localhost:3001/api/films/pages/0?sort=rating`;
-            console.log(`loading films by id`);
             this.loadFilms(url, 0);
           }
         );
@@ -47,18 +45,15 @@ class FilmListContainer extends Component {
           { currentPage: 0, sortBy: e.target.value, category: "All" },
           () => {
             const url = `http://localhost:3001/api/films/pages/0?sort=title`;
-            console.log(`loading films by title`);
             this.loadFilms(url, 0);
           }
         );
-
         break;
       }
     }
   };
 
   onChangeCategory = e => {
-    console.log(e.target.value);
     if (e.target.value !== "All") {
       this.setState({
         currentPage: 0,
@@ -94,9 +89,7 @@ class FilmListContainer extends Component {
 
   loadFilms = (url, page) => {
     this.props.onLoadFilms(url, page, this.props.films);
-    this.setState({ currentPage: this.state.currentPage + 1 }, () =>
-      console.log(this.state.currentPage)
-    );
+    this.setState({ currentPage: this.state.currentPage + 1 });
   };
 
   render() {

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Login from "../views/Login";
+import Login from "../views/Login/login";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
@@ -129,7 +129,7 @@ class LoginContainer extends Component {
   handleChangeTab = (event, value) => {
     this.setState({
       email: "",
-      tabNumber: value,
+      tabNumber: event.target.value,
       formErrors: { serverErrors: "", email: "", password: "" },
 
       password: "",

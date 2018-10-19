@@ -2,11 +2,12 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { styles } from "./style";
 import FilmCardContainer from "../../containers/FilmCardContainer";
+import "./style.css";
 
 function filmList(props) {
   const { classes } = props;
   return (
-    <React.Fragment>
+    <div>
       <select onChange={props.onChangeCategory} value={props.category}>
         <option value="All">select category</option>
         {props.categories.map(category => {
@@ -22,12 +23,12 @@ function filmList(props) {
         <option value="title">title</option>
         <option value="rating">rating</option>
       </select>
-      <div className={classes.cardContainer}>
+      <div className="cardContainer">
         {props.films.map((film, id) => {
           return <FilmCardContainer film={film} key={id} />;
         })}
       </div>
-    </React.Fragment>
+    </div>
   );
 }
 export default withStyles(styles)(filmList);
