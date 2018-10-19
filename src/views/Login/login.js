@@ -4,7 +4,7 @@ import "./style.css";
 
 const loginForm = props => {
   return (
-    <div className="root">
+    <div className="rootLogin">
       <div className="tab">
         <button
           onClick={props.handleChangeTab}
@@ -25,7 +25,7 @@ const loginForm = props => {
         type="submit"
         className="loginForm"
         onSubmit={
-          props.tabNumber === 0
+          props.tabNumber == 0
             ? props.handleSubmitLogin
             : props.handleSubmitRegister
         }

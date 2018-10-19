@@ -108,6 +108,7 @@ class LoginContainer extends Component {
 
   handleSubmitLogin = e => {
     e.preventDefault();
+
     axios
       .post("http://localhost:3001/api/auth", {
         email: this.state.email,

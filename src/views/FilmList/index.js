@@ -1,6 +1,4 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import { styles } from "./style";
 import FilmCardContainer from "../../containers/FilmCardContainer";
 import "./style.css";
 
@@ -31,4 +29,4 @@ function filmList(props) {
     </div>
   );
 }
-export default withStyles(styles)(filmList);
+export default filmList;

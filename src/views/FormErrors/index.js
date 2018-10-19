@@ -1,6 +1,5 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import { styles } from "./style";
+import "./style.css";
 
 const FormErrors = props => {
   const { classes } = props;
@@ -9,7 +8,7 @@ const FormErrors = props => {
       {Object.keys(props.formErrors).map((fieldName, i) => {
         if (fieldName == "serverErrors") {
           return (
-            <p key={i} className={classes.errorMessage}>
+            <p key={i} className="errorMessage">
               {props.formErrors.serverErrors}
             </p>
           );
@@ -30,4 +29,4 @@ const FormErrors = props => {
   );
 };
 
-export default withStyles(styles)(FormErrors);
+export default FormErrors;
