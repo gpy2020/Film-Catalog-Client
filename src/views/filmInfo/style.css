@@ -114,3 +114,22 @@
 .comments {
   width: 480px;
 }
+
+.table {
+  margin-top: 20px;
+  background-color: #ffffff
+}
+
+.dogSaga {
+  display: flex;
+  flex-direction: column; 
+  margin-top: 15px;
+  align-items: center;
+}
+
+.dogImage {
+  width: 400px;
+  height: 400px;
+  margin-top: 5px;
+  border-radius: 4px;
+}

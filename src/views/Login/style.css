@@ -28,6 +28,7 @@
   width: 160px;
   height: 48px;
   border: none;
+  outline: none;
   color: black;
   opacity: 0.7;
 }

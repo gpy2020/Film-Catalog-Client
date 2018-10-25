@@ -11,7 +11,9 @@ import {
   GooglePlusShareButton,
   GooglePlusIcon
 } from "react-share";
+import ReactTable from "react-table";
 
+import "react-table/react-table.css";
 import "./style.css";
 
 const filmInfo = props => {
@@ -21,6 +23,38 @@ const filmInfo = props => {
     identifier: props.filmID,
     title: props.film.title
   };
+  const data = [
+    {
+      number: 10,
+      string: "some text",
+      date: new Date("December 27, 1998 00:00:00").toLocaleDateString()
+    },
+    {
+      number: 20,
+      string: "some another text",
+      date: new Date("2018-10-03T10:00").toLocaleDateString()
+    },
+    {
+      number: -1,
+      string: "one more another text",
+      date: new Date("2018-10-24T12:00").toLocaleDateString()
+    }
+  ];
+
+  const columns = [
+    {
+      Header: "Number",
+      accessor: "number"
+    },
+    {
+      Header: "String",
+      accessor: "string"
+    },
+    {
+      Header: "Date",
+      accessor: "date"
+    }
+  ];
 
   return (
     <div className="root">
@@ -155,10 +189,29 @@ const filmInfo = props => {
             </div>
           )}
           {props.value == 1 && (
-            <div className="galery">
-              {props.film.galery.map((image, i) => {
-                return <img src={image} key={i} className="galery__image" />;
-              })}
+            <div className="galeryRoot">
+              <div className="galery">
+                {props.film.galery.map((image, i) => {
+                  return <img src={image} key={i} className="galery__image" />;
+                })}
+              </div>
+              <ReactTable
+                className="table"
+                data={data}
+                columns={columns}
+                defaultPageSize={3}
+                pageSizeOptions={[3, 6]}
+              />
+              <div className="dogSaga">
+                {props.isDogLoading ? (
+                  <button disabled>Loading...</button>
+                ) : (
+                  <button onClick={props.onRequestDog}>Request a dog</button>
+                )}
+                {props.dogImage && (
+                  <img src={props.dogImage} className="dogImage" />
+                )}
+              </div>
             </div>
           )}
           {props.value == 2 && (

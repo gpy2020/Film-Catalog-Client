@@ -116,8 +116,9 @@ class FilmInfoContainer extends Component {
     this.setState({ value: event.target.value });
   };
 
+  loadDog = () => {};
+
   componentWillReceiveProps(nextProps) {
-    console.log(`nextProps.user.email: ${nextProps.user.email}`);
     if (nextProps.user.email === "") {
       this.setState({ isAuthorized: false, userMark: null });
     }
@@ -170,6 +171,10 @@ class FilmInfoContainer extends Component {
         onClickMark={this.onClickMark}
         userMark={this.state.userMark}
         filmID={this.props.match.params.id}
+        onRequestDog={this.props.onRequestDog}
+        isDogLoading={this.props.isDogLoading}
+        dogImage={this.props.dogImage}
+        dogError={this.props.dogError}
       />
     );
   }
@@ -177,7 +182,10 @@ class FilmInfoContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.catalog.user
+    user: state.catalog.user,
+    isDogLoading: state.catalog.isDogLoading,
+    dogImage: state.catalog.dogImage,
+    dogError: state.catalog.dogError
   };
 };
 
@@ -185,7 +193,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onSetUser: user => {
       dispatch(actions.setUser(user));
-    }
+    },
+    onRequestDog: () => dispatch({ type: "LOAD_DOG_REQUEST" })
   };
 };
 

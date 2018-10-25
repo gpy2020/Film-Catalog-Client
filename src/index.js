@@ -7,11 +7,18 @@ import { Provider } from "react-redux";
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 
+import createSagaMiddleware from "redux-saga";
+import { loadDogWatcher } from "./actions/saga";
+
+const sagaMiddleware = createSagaMiddleware();
+
 const rootReducer = combineReducers({
   catalog: catalogReducer
 });
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore(rootReducer, applyMiddleware(thunk, sagaMiddleware));
+
+sagaMiddleware.run(loadDogWatcher);
 
 ReactDOM.render(
   <Provider store={store}>

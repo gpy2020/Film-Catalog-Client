@@ -6,7 +6,10 @@ const initialState = {
   error: false,
   films: [],
   categories: [],
-  user: { email: "", password: "" }
+  user: { email: "", password: "" },
+  isDogLoading: false,
+  dogImage: null,
+  dogError: null
 };
 
 function catalogReducer(state = initialState, action) {
@@ -36,13 +39,28 @@ function catalogReducer(state = initialState, action) {
     }
 
     case actionTypes.SET_USER: {
-      console.log(action.payload);
       return { ...state, user: action.payload };
     }
 
     case actionTypes.REMOVE_USER: {
-      console.log(state.user);
       return { ...state, user: { email: "", password: "" } };
+    }
+
+    case actionTypes.LOAD_DOG_REQUEST: {
+      return { ...state, isDogLoading: true, dogError: null };
+    }
+
+    case actionTypes.LOAD_DOG_SUCCESS: {
+      return { ...state, dogImage: action.dog, isDogLoading: false };
+    }
+
+    case actionTypes.LOAD_DOG_FAIL: {
+      return {
+        ...state,
+        dogError: action.error,
+        dog: null,
+        isDogLoading: false
+      };
     }
 
     default: {
