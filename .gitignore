@@ -1,3 +1,6 @@
 /node_modules/
 /data/
 /public/
+/coverage/
+/.vscode/
+__snapshots__

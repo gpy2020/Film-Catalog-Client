@@ -13,10 +13,9 @@ class FilmInfoContainer extends Component {
       film: {},
       value: 0,
       comment: "",
-      openImage: false,
-      imageLink: "",
       isAuthorized: false,
-      userMark: null
+      userMark: null,
+      imdbRating: null
     };
   }
 
@@ -83,14 +82,6 @@ class FilmInfoContainer extends Component {
     }
   };
 
-  onOpenImage = e => {
-    this.setState({ openImage: true, imageLink: e.target.src });
-  };
-
-  onCloseImage = e => {
-    this.setState({ openImage: false });
-  };
-
   handleComment = e => {
     const filmComments = [
       ...this.state.film.comments,
@@ -124,6 +115,16 @@ class FilmInfoContainer extends Component {
     }
   }
 
+  getRating = () => {
+    axios.get("http://localhost:3001/api/films/getRating").then(res => {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(res.data, "text/xml");
+      const imdbRating = xmlDoc.getElementsByTagName("imdb_rating")[0]
+        .childNodes[0].nodeValue;
+      this.setState({ imdbRating });
+    });
+  };
+
   componentWillMount() {
     axios
       .get("http://localhost:3001/api/dashboard", {
@@ -152,6 +153,7 @@ class FilmInfoContainer extends Component {
       .then(res => {
         this.setState({ film: res.data });
       });
+    this.getRating();
   }
 
   render() {
@@ -160,13 +162,6 @@ class FilmInfoContainer extends Component {
         film={this.state.film}
         value={this.state.value}
         handleChange={this.switchTabs}
-        handleComment={this.handleComment}
-        handleInput={this.handleInput}
-        text={this.state.comment}
-        openImage={this.state.openImage}
-        onOpenImage={this.onOpenImage}
-        onCloseImage={this.onCloseImage}
-        imageLink={this.state.imageLink}
         isAuthorized={this.state.isAuthorized}
         onClickMark={this.onClickMark}
         userMark={this.state.userMark}
@@ -175,6 +170,7 @@ class FilmInfoContainer extends Component {
         isDogLoading={this.props.isDogLoading}
         dogImage={this.props.dogImage}
         dogError={this.props.dogError}
+        imdbRating={this.state.imdbRating}
       />
     );
   }

@@ -53,38 +53,12 @@ class FilmListContainer extends Component {
     }
   };
 
-  onChangeCategory = e => {
-    if (e.target.value !== "All") {
-      this.setState({
-        currentPage: 0,
-        sortBy: "title",
-        category: e.target.value
-      });
-      const url = `http://localhost:3001/api/films/categories/${
-        e.target.value
-      }/0`;
-
-      this.loadFilms(url, 0);
-    } else {
-      this.setState(
-        { currentPage: 0, sortBy: "title", category: e.target.value },
-        () => {
-          const url = "http://localhost:3001/api/films/pages/0";
-          this.loadFilms(url, 0);
-        }
-      );
-    }
-  };
-
   componentWillMount() {
     this.props.onChangePage("films");
     const url = `http://localhost:3001/api/films/pages/${
       this.state.currentPage
     }?sort=${this.state.sortBy}`;
     this.loadFilms(url, this.state.currentPage);
-    axios.get("http://localhost:3001/api/films/categories").then(res => {
-      this.props.onLoadCategories(res.data);
-    });
   }
 
   loadFilms = (url, page) => {
@@ -96,11 +70,8 @@ class FilmListContainer extends Component {
     return (
       <FilmList
         films={this.props.films}
-        categories={this.props.categories}
-        onChangeCategory={this.onChangeCategory}
         onChangeSorting={this.onChangeSorting}
         sortBy={this.state.sortBy}
-        category={this.state.category}
       />
     );
   }
@@ -110,7 +81,6 @@ const mapStateToProps = state => {
   return {
     pageName: state.catalog.currentPage,
     films: state.catalog.films,
-    categories: state.catalog.categories,
     user: state.catalog.user,
     isLoading: state.catalog.loading
   };
@@ -120,9 +90,6 @@ const mapDispatchToProps = dispatch => {
   return {
     onLoadFilms: (url, currentPage, films) => {
       dispatch(actions.loadFilmList(url, currentPage, films));
-    },
-    onLoadCategories: categories => {
-      dispatch(actions.setCategories(categories));
     },
     onSetUser: user => {
       dispatch(actions.setUser(user));

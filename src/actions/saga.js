@@ -10,8 +10,6 @@ function* loadDogWorker() {
   try {
     const response = yield call(loadDog);
     const dog = response.data.message;
-    console.log("loaded new dog!");
-    console.log(response.data);
 
     yield put({ type: actionTypes.LOAD_DOG_SUCCESS, dog });
   } catch (error) {

@@ -3,19 +3,8 @@ import FilmCardContainer from "../../containers/FilmCardContainer";
 import "./style.css";
 
 function filmList(props) {
-  const { classes } = props;
   return (
     <div>
-      <select onChange={props.onChangeCategory} value={props.category}>
-        <option value="All">select category</option>
-        {props.categories.map(category => {
-          return (
-            <option value={category._id} key={category._id}>
-              {category.title}
-            </option>
-          );
-        })}
-      </select>
       <select onChange={props.onChangeSorting} value={props.sortBy}>
         <option value="All">sort by</option>
         <option value="title">title</option>

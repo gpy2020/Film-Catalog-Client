@@ -64,6 +64,7 @@ const filmInfo = props => {
           <div className="head__info">
             <h2>{props.film.title}</h2>
             <h3>Rating: {props.film.rating}</h3>
+            {props.imdbRating && <h3>IMDb rating: {props.imdbRating}</h3>}
             <div className="star_rating__wrap">
               <input
                 className="star_rating__input"
@@ -164,6 +165,7 @@ const filmInfo = props => {
             value={0}
             onClick={props.handleChange}
             className={props.value == 0 ? "active" : ""}
+            id="description"
           >
             DESCRIPTION
           </button>

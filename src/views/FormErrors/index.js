@@ -2,7 +2,6 @@ import React from "react";
 import "./style.css";
 
 const FormErrors = props => {
-  const { classes } = props;
   return (
     <div>
       {Object.keys(props.formErrors).map((fieldName, i) => {
@@ -15,7 +14,7 @@ const FormErrors = props => {
         } else {
           if (props.formErrors[fieldName].length > 0 && props.tabNumber === 1) {
             return (
-              <p key={i} className={classes.errorMessage}>
+              <p key={i}>
                 {" "}
                 {fieldName} {props.formErrors[fieldName]}
               </p>

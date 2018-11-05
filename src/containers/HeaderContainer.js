@@ -27,13 +27,10 @@ class HeaderContainer extends Component {
 
   loadFilms = (url, page) => {
     this.props.onLoadFilms(url, page, this.props.films);
-    this.setState({ currentPage: this.state.currentPage + 1 }, () =>
-      console.log(this.state.currentPage)
-    );
+    this.setState({ currentPage: this.state.currentPage + 1 });
   };
 
   handleMenu = event => {
-    console.log(event.currentTarget);
     this.setState({ anchorEl: event.currentTarget, menu: true });
   };
 
@@ -42,7 +39,6 @@ class HeaderContainer extends Component {
   };
 
   componentWillMount() {
-    console.log(this.props.user);
     axios
       .get("http://localhost:3001/api/dashboard", {
         headers: {

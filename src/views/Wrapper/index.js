@@ -5,7 +5,6 @@ import HeaderContainer from "../../containers/HeaderContainer";
 import LoginContainer from "../../containers/LoginContainer";
 import FilmListContainer from "../../containers/FilmsListContainer";
 import FilmInfoContainer from "../../containers/FilmInfoContainer";
-import CategoryFilmListContainer from "../../containers/CategoryFilmListContainer";
 
 function withRoot(Component) {
   return class includeHeaderComponent extends React.Component {
@@ -25,11 +24,6 @@ function wrapper() {
       <Route exact path="/" component={HeaderContainer} />
       <Route exact path="/login" component={withRoot(LoginContainer)} />
       <Route exact path="/films" component={withRoot(FilmListContainer)} />
-      <Route
-        exact
-        path="/films/categories/:id"
-        component={withRoot(CategoryFilmListContainer)}
-      />
       <Route exact path="/films/:id" component={withRoot(FilmInfoContainer)} />
       <Route exact path="/:id" component={withRoot(FilmInfoContainer)} />
     </Switch>
